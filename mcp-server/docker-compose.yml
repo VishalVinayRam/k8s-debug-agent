@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build: .
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Read-only Docker socket
+      - /var/log:/var/log:ro                          # Read-only log access
+      - /proc:/proc:ro                                # System performance diagnostics
+    read_only: true                                   # Immutable root filesystem
+    tmpfs:
+      - /tmp                                          # Writable /tmp
+    environment:
+      - PORT=${PORT:-8080}
+    restart: always
